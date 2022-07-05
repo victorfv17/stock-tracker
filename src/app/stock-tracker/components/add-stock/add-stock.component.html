@@ -1,0 +1,24 @@
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <form (ngSubmit)="addStock()" autocomplete="off" [formGroup]="stockForm">
+                <h4>Enter the symbol of a stock to track (i.e. AAPL, TSLA, GOOGL)</h4>
+                <div class="content">
+                    <input class="form-control-sm" placeholder="Stock" type="text" id="symbol" formControlName="symbol">
+                    <button class="ml-3" type="submit" class="btn btn-primary" id="addStockBtn">
+                        Track Stock
+                    </button>
+                </div>
+                <!-- <span class="text-danger" *ngIf="symbolInvalid('symbol','pattern')">
+                            Symbol of a stock is invalid
+                        </span>
+                        <span class="text-danger" *ngIf="symbolInvalid('symbol','symbolExists')">
+                            Symbol of a stock already exists, please enter another one.
+                        </span> -->
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
