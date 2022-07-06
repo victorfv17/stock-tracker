@@ -1,0 +1,24 @@
+.cursor {
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.content {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5%;
+    flex-wrap: wrap;
+}
+
+.size-icon {
+    font-size: 3em;
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
+}

@@ -1,29 +1,38 @@
-<!-- <div *ngFor="let data of listStock"> -->
-<div class="well flex">
-    <div>
-        <h3 *ngIf="listStock.company">{{listStock.company.description}} ({{listStock.company.symbol}})</h3>
+<div *ngIf="listStock.length > 0">
+    <div class="card mt-3" *ngFor="let data of listStock">
+        <div class="card-body">
+            <div class="title-container mb-3">
+                <h3 *ngIf="data.company">{{data.company.description}} ({{data.company.symbol}})</h3>
+                <span class="cursor" (click)="deleteStock(data.company?.symbol)">×</span>
+            </div>
 
-        <p>
-            Change today: {{listStock.change | percent}}
-        </p>
-        <p>
-            Current price: {{listStock.currentPrice | currency: 'USD'}}
-        </p>
-        <p>
-            Opening price: {{listStock.openPrice | currency: 'USD'}}
-        </p>
-        <p>
-            High price: {{listStock.highPrice | currency: 'USD'}}
-        </p>
+            <div class="container">
+                <div class="content">
+                    <p *ngIf="data.change">
+                        Change today: {{data.change}}%
+                    </p>
+                    <p>
+                        Current price: {{data.currentPrice | currency: 'USD'}}
+                    </p>
+                </div>
+                <div class="content">
+                    <p>
+                        Opening price: {{data.openPrice | currency: 'USD'}}
+                    </p>
+                    <p>
+                        High price: {{data.highPrice | currency: 'USD'}}
+                    </p>
+                </div>
 
-        <!-- <p>
+                <div *ngIf="data.percentChange">
+                    <span class="size-icon"
+                        [ngStyle]="{'color': percentControl(data.percentChange) ? 'green' : 'red'}">{{arrow}}
+                    </span>
+                </div>
+            </div>
+            <!-- <p>
                 <a href="forecast/{{data.zipcode}}">Go to social sentiment details ></a>
             </p> -->
-    </div>
-    <div>
-        <!-- <span class="close" (click)="deleteStock(data.stock)">×</span> -->
-        <!-- <img *ngIf="data.weather && data.weather.length > 0 && data.weather[0].main"
-                src="https://www.angulartraining.com/images/weather/{{data.weather[0].main | lowercase  | imageUrl}}.png"> -->
+        </div>
     </div>
 </div>
-<!-- </div> -->

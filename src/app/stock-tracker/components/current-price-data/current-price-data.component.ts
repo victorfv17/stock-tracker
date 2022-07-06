@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Company } from '../../models/company.model';
 import { IQuoteResponse } from '../../models/quoteResponse.model';
@@ -11,7 +12,8 @@ import { StockTrackerService } from '../../services/stock-tracker.service';
 })
 export class CurrentPriceDataComponent implements OnInit {
   @Input() stock: Array<string> = [];
-  listStock: Stock = {};
+  listStock: Array<Stock> = [];
+  arrow: any;
   constructor(private stockTrackerService: StockTrackerService) { }
 
   ngOnInit() { }
@@ -25,23 +27,16 @@ export class CurrentPriceDataComponent implements OnInit {
   }
 
 
-  fetchWeatherData() {
-
+  private fetchWeatherData(): void {
+    this.listStock = [];
     this.stock = this.stockTrackerService.getStockStore();
     if (this.stock.length > 0) {
       this.stock.forEach((symbol: string) => {
-
         this.stockTrackerService.getStockData(symbol).subscribe((stockData: Stock) => {
-          // this.mapWeatherData(weatherData, symbol);
-          this.listStock = stockData;
           this.stockTrackerService.getCompanyName(symbol).subscribe((companyData: Company) => {
-            this.listStock.company = companyData;
+            stockData.company = companyData;
+            this.listStock.push(stockData);
           });
-        }, error => {
-          if (error) {
-            // this.stockTrackerService.deleteZipcodeStore(symbol);
-            // alert(error.error.message);
-          }
         });
       });
     }
@@ -58,10 +53,19 @@ export class CurrentPriceDataComponent implements OnInit {
   //   }
   // }
 
-  // public deleteLocation(symbol: string | undefined) {
-  //   this.stock = this.stock.filter((element: string) => element !== symbol);
-  //   this.listWeather = this.listWeather.filter((stock: WeatherMapResponse) => stock.symbol !== symbol);
-  //   this.stockTrackerService.saveZipcodesStore(this.stock);
-  // }
+  public deleteStock(symbol: string | undefined): void {
+    this.stock = this.stock.filter((element: string) => element !== symbol);
 
+    this.stockTrackerService.saveStockStore(this.stock);
+    this.listStock = this.listStock.filter((stock: Stock) => stock.company?.symbol !== symbol);
+  }
+
+  public percentControl(percentChange: number): boolean {
+    if (percentChange >= 0) {
+      this.arrow = "🡹";
+      return true;
+    }
+    this.arrow = "🡻";
+    return false;
+  }
 }
