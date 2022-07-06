@@ -9,16 +9,14 @@
                         Track Stock
                     </button>
                 </div>
-                <!-- <span class="text-danger" *ngIf="symbolInvalid('symbol','pattern')">
-                            Symbol of a stock is invalid
-                        </span>
-                        <span class="text-danger" *ngIf="symbolInvalid('symbol','symbolExists')">
-                            Symbol of a stock already exists, please enter another one.
-                        </span> -->
-
-
-
+                <span class="text-danger" *ngIf="symbolInvalid('symbol','pattern')">
+                    Symbol of a stock is invalid
+                </span>
+                <span class="text-danger" *ngIf="symbolInvalid('symbol','symbolExists')">
+                    Symbol of a stock already exists, please enter another one.
+                </span>
             </form>
         </div>
     </div>
+    <app-current-price-data [stock]="stock"></app-current-price-data>
 </div>

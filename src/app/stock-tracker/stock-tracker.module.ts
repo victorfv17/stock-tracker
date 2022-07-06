@@ -5,12 +5,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AddStockComponent } from './components/add-stock/add-stock.component';
+import { CurrentPriceDataComponent } from './components/current-price-data/current-price-data.component';
 
 
 
 
 @NgModule({
-  declarations: [AddStockComponent],
+  declarations: [AddStockComponent, CurrentPriceDataComponent],
   imports: [
     CommonModule,
     BrowserModule,

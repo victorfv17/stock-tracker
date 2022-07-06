@@ -1,0 +1,29 @@
+<!-- <div *ngFor="let data of listStock"> -->
+<div class="well flex">
+    <div>
+        <h3 *ngIf="listStock.company">{{listStock.company.description}} ({{listStock.company.symbol}})</h3>
+
+        <p>
+            Change today: {{listStock.change | percent}}
+        </p>
+        <p>
+            Current price: {{listStock.currentPrice | currency: 'USD'}}
+        </p>
+        <p>
+            Opening price: {{listStock.openPrice | currency: 'USD'}}
+        </p>
+        <p>
+            High price: {{listStock.highPrice | currency: 'USD'}}
+        </p>
+
+        <!-- <p>
+                <a href="forecast/{{data.zipcode}}">Go to social sentiment details ></a>
+            </p> -->
+    </div>
+    <div>
+        <!-- <span class="close" (click)="deleteStock(data.stock)">×</span> -->
+        <!-- <img *ngIf="data.weather && data.weather.length > 0 && data.weather[0].main"
+                src="https://www.angulartraining.com/images/weather/{{data.weather[0].main | lowercase  | imageUrl}}.png"> -->
+    </div>
+</div>
+<!-- </div> -->

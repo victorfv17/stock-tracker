@@ -25,7 +25,7 @@ export class AddStockComponent implements OnInit {
       this.stock = this.stockTrackerService.getStockStore();
       if (!this.existsInStore()) {
         this.stock.push(this.stockForm.value.symbol);
-        this.stockTrackerService.saveZipcodesStore(this.stock);
+        this.stockTrackerService.saveStockStore(this.stock);
       } else {
         this.stockForm.controls['symbol'].setErrors({ 'symbolExists': true });
       }
