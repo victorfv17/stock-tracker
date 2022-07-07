@@ -6,17 +6,20 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AddStockComponent } from './components/add-stock/add-stock.component';
 import { CurrentPriceDataComponent } from './components/current-price-data/current-price-data.component';
+import { SentimentComponent } from './components/sentiment/sentiment.component';
+import { RouterModule } from '@angular/router';
 
 
 
 
 @NgModule({
-  declarations: [AddStockComponent, CurrentPriceDataComponent],
+  declarations: [AddStockComponent, CurrentPriceDataComponent, SentimentComponent],
   imports: [
     CommonModule,
     BrowserModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule
   ]
 })
 export class StockTrackerModule { }

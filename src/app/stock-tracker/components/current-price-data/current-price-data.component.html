@@ -9,30 +9,31 @@
             <div class="container">
                 <div class="content">
                     <p *ngIf="data.change">
-                        Change today: {{data.change}}%
+                        Change today: {{data.change| number:'.0-2'}}%
                     </p>
                     <p>
-                        Current price: {{data.currentPrice | currency: 'USD'}}
+                        Current price: {{data.currentPrice| number:'.0-2' | currency: 'USD'}}
                     </p>
                 </div>
                 <div class="content">
                     <p>
-                        Opening price: {{data.openPrice | currency: 'USD'}}
+                        Opening price: {{data.openPrice | number:'.0-2'| currency: 'USD'}}
                     </p>
                     <p>
-                        High price: {{data.highPrice | currency: 'USD'}}
+                        High price: {{data.highPrice| number:'.0-2'| currency: 'USD'}}
                     </p>
                 </div>
 
                 <div *ngIf="data.percentChange">
                     <span class="size-icon"
-                        [ngStyle]="{'color': percentControl(data.percentChange) ? 'green' : 'red'}">{{arrow}}
+                        [ngStyle]="{'color': stockTrackerService.percentControl(data.percentChange) ? 'green' : 'red'}">{{stockTrackerService.arrow}}
                     </span>
                 </div>
             </div>
-            <!-- <p>
-                <a href="forecast/{{data.zipcode}}">Go to social sentiment details ></a>
-            </p> -->
+
+            <button (click)="goToSentiment(data.company)">Go to social sentiment
+                details ></button>
+
         </div>
     </div>
 </div>

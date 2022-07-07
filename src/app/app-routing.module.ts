@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddStockComponent } from './stock-tracker/components/add-stock/add-stock.component';
+import { SentimentComponent } from './stock-tracker/components/sentiment/sentiment.component';
 
 const routes: Routes = [
   {
@@ -8,10 +9,10 @@ const routes: Routes = [
     component: AddStockComponent,
     pathMatch: 'full'
   },
-  // {
-  //   path: 'forecast/:zipcode',
-  //   component: ForecastComponent
-  // }
+  {
+    path: 'sentiment/:symbol',
+    component: SentimentComponent
+  }
 ];
 
 @NgModule({

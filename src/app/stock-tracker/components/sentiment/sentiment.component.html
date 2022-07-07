@@ -1,0 +1,31 @@
+<div *ngIf="listSentiment.length > 0">
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="title-container mb-3">
+                <h3>{{companyName}} ({{symbol}})</h3>
+            </div>
+            <div class="container">
+                <div class="content" *ngFor="let data of listSentiment">
+                    <div>
+                        <p>
+                            {{data.date |date:'MMMM'}}
+                        </p>
+                        <p>
+                            Change: {{data.change| number:'.0-2'}}
+                        </p>
+                        <p>
+                            MSPR: {{data.mspr | number:'.0-2'}}
+                        </p>
+                    </div>
+
+                    <span *ngIf="data.change" class="size-icon"
+                        [ngStyle]="{'color': stockTrackerService.percentControl(data.change) ? 'green' : 'red'}">{{stockTrackerService.arrow}}
+                    </span>
+                </div>
+            </div>
+            <button (click)="goToBack()">
+                < Back to list of stocks </button>
+
+        </div>
+    </div>
+</div>

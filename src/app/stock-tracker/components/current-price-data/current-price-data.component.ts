@@ -1,5 +1,6 @@
 import { ThisReceiver } from '@angular/compiler';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { Company } from '../../models/company.model';
 import { IQuoteResponse } from '../../models/quoteResponse.model';
 import { Stock } from '../../models/stock.model';
@@ -13,21 +14,24 @@ import { StockTrackerService } from '../../services/stock-tracker.service';
 export class CurrentPriceDataComponent implements OnInit {
   @Input() stock: Array<string> = [];
   listStock: Array<Stock> = [];
-  arrow: any;
-  constructor(private stockTrackerService: StockTrackerService) { }
+
+  constructor(
+    public stockTrackerService: StockTrackerService,
+    private router: Router
+  ) { }
 
   ngOnInit() { }
 
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['stock']) {
-      this.fetchWeatherData();
+      this.fetchSymbolData();
     }
 
   }
 
 
-  private fetchWeatherData(): void {
+  private fetchSymbolData(): void {
     this.listStock = [];
     this.stock = this.stockTrackerService.getStockStore();
     if (this.stock.length > 0) {
@@ -60,12 +64,13 @@ export class CurrentPriceDataComponent implements OnInit {
     this.listStock = this.listStock.filter((stock: Stock) => stock.company?.symbol !== symbol);
   }
 
-  public percentControl(percentChange: number): boolean {
-    if (percentChange >= 0) {
-      this.arrow = "🡹";
-      return true;
+
+
+  public goToSentiment(company?: Company) {
+    if (company && company.description) {
+      this.stockTrackerService.sendData(company.description);
+      this.router.navigate(['/sentiment', company.symbol]);
     }
-    this.arrow = "🡻";
-    return false;
+
   }
 }
