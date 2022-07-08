@@ -1,8 +1,6 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Company } from '../../models/company.model';
-import { IQuoteResponse } from '../../models/quoteResponse.model';
 import { Stock } from '../../models/stock.model';
 import { StockTrackerService } from '../../services/stock-tracker.service';
 
@@ -13,6 +11,7 @@ import { StockTrackerService } from '../../services/stock-tracker.service';
 })
 export class CurrentPriceDataComponent implements OnInit {
   @Input() stock: Array<string> = [];
+  public isLoading: boolean = true;
   listStock: Array<Stock> = [];
 
   constructor(
@@ -30,41 +29,48 @@ export class CurrentPriceDataComponent implements OnInit {
 
   }
 
-
   private fetchSymbolData(): void {
+    this.isLoading = true;
     this.listStock = [];
     this.stock = this.stockTrackerService.getStockStore();
     if (this.stock.length > 0) {
       this.stock.forEach((symbol: string) => {
-        this.stockTrackerService.getStockData(symbol).subscribe((stockData: Stock) => {
-          this.stockTrackerService.getCompanyName(symbol).subscribe((companyData: Company) => {
-            stockData.company = companyData;
-            this.listStock.push(stockData);
-          });
+        this.stockTrackerService.getStockData(symbol).subscribe({
+          next: (stockData: Stock) => {
+            this.fetchCompany(symbol, stockData);
+          },
+          error: (error: ErrorEvent) => {
+            if (error) {
+              this.isLoading = false;
+              alert(error.error.message);
+            }
+          }
+
         });
       });
     }
   }
 
-
-  // private mapWeatherData(weatherData: WeatherMapResponse, zipcode: number) {
-  //   if (weatherData) {
-  //     weatherData.zipcode = zipcode;
-  //     if (weatherData.weather && weatherData.weather.length > 0) {
-  //       weatherData.weather[0].main = weatherData.weather[0].main?.toLowerCase();
-  //     }
-  //     this.listWeather.push(weatherData);
-  //   }
-  // }
-
-  public deleteStock(symbol: string | undefined): void {
-    this.stock = this.stock.filter((element: string) => element !== symbol);
-
-    this.stockTrackerService.saveStockStore(this.stock);
-    this.listStock = this.listStock.filter((stock: Stock) => stock.company?.symbol !== symbol);
+  private fetchCompany(symbol: string, stockData: Stock) {
+    this.stockTrackerService.getCompanyName(symbol).subscribe({
+      next: (companyData: Company) => {
+        stockData.company = companyData;
+        this.listStock.push(stockData);
+        this.isLoading = false;
+      },
+      error: (error: ErrorEvent) => {
+        if (error) {
+          this.isLoading = false;
+          alert(error.error.message);
+        }
+      }
+    });
   }
 
-
+  public deleteStock(symbol: string): void {
+    this.stockTrackerService.deleteStockStore(symbol);
+    this.listStock = this.listStock.filter((stock: Stock) => stock.company?.symbol !== symbol);
+  }
 
   public goToSentiment(company?: Company) {
     if (company && company.description) {

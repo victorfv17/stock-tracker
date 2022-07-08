@@ -13,9 +13,10 @@ import { ISentimentResponse, Sentiment } from '../models/sentimentResponse.model
 })
 export class StockTrackerService {
   private apiUrl: string = 'https://finnhub.io/api/v1';
-  private apiKey = "bu4f8kn48v6uehqi3cqg";
+  private apiKey: string = "bu4f8kn48v6uehqi3cqg";
   public subject = new BehaviorSubject('');
   public arrow: string = "";
+
   constructor(private http: HttpClient) { }
 
   private getEndpoint(resource: string): string {
@@ -54,7 +55,6 @@ export class StockTrackerService {
     queryParams = queryParams
       .append("symbol", symbol)
       .append("token", this.apiKey);
-    // .append("units", 'imperial');
 
     return this.http.get<IQuoteResponse>(this.getEndpoint(specificEndPoint), { params: queryParams })
       .pipe(map((res: IQuoteResponse) => { return new Stock(res) }));
@@ -71,27 +71,27 @@ export class StockTrackerService {
   }
 
   getSentiment(symbol: string): Observable<Array<Sentiment>> {
-
     const specificEndPoint = 'stock/insider-sentiment';
     let queryParams = new HttpParams();
-    const today = Date.now();
-    const todayFormatted = moment(today).format('YYYY-MM-DD');
-
-    const date = moment();
-
-    const dateIn5Months = date.add(-3, 'months');
-    const strDate = dateIn5Months.format('YYYY-MM-DD');
 
     queryParams = queryParams
       .append("symbol", symbol)
       .append("token", this.apiKey)
-      .append("from", strDate)
-      .append("to", todayFormatted);
+      .append("from", this.subtractMonths())
+      .append("to", moment(Date.now()).format('YYYY-MM-DD'));
 
     return this.http.get<ISentimentResponse>(this.getEndpoint(specificEndPoint), { params: queryParams })
       .pipe(map(
         (res: ISentimentResponse) => { return res.data })
       );
+  }
+
+  private subtractMonths(): string {
+    const date = moment();
+    const dateMinus3Months = date.add(-3, 'months');
+    const dateFormatted = dateMinus3Months.format('YYYY-MM-DD');
+    return dateFormatted;
+
   }
 
 

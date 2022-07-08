@@ -20,7 +20,7 @@ export class AddStockComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  addStock() {
+  addStock(): void {
     if (this.stockForm.valid) {
       this.stock = this.stockTrackerService.getStockStore();
       if (!this.existsInStore()) {

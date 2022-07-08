@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddStockComponent } from './stock-tracker/components/add-stock/add-stock.component';
-import { SentimentComponent } from './stock-tracker/components/sentiment/sentiment.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AddStockComponent,
+    redirectTo: 'stock',
     pathMatch: 'full'
   },
   {
-    path: 'sentiment/:symbol',
-    component: SentimentComponent
+    path: 'stock',
+    loadChildren: () => import('src/app/stock-tracker/stock-tracker.module').then(x => x.StockTrackerModule)
   }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
