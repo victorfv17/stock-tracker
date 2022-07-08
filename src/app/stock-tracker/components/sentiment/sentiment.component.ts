@@ -35,6 +35,8 @@ export class SentimentComponent implements OnInit {
           this.listSentiment = sentimentData;
           this.listSentiment.map((element: Sentiment) => { element.date = `${element?.year}-${element?.month}-01` });
           this.getCompanySubject();
+        } else {
+          this.isLoading = false;
         }
       },
       error: (error: ErrorEvent) => {
