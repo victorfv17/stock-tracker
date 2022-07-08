@@ -5,8 +5,8 @@ import { Company } from '../models/company.model';
 import { IQuoteResponse } from '../models/quoteResponse.model';
 import { Stock } from '../models/stock.model';
 import { ISymbolSearchResponse } from '../models/symbolSearchResponse.model';
-import * as moment from 'moment';
 import { ISentimentResponse, Sentiment } from '../models/sentimentResponse.model';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,8 @@ export class StockTrackerService {
   public subject = new BehaviorSubject('');
   public arrow: string = "";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private datepipe: DatePipe) { }
 
   private getEndpoint(resource: string): string {
     return `${this.apiUrl}/${resource}`;
@@ -72,13 +73,13 @@ export class StockTrackerService {
 
   getSentiment(symbol: string): Observable<Array<Sentiment>> {
     const specificEndPoint = 'stock/insider-sentiment';
+    const today = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
     let queryParams = new HttpParams();
-
     queryParams = queryParams
       .append("symbol", symbol)
       .append("token", this.apiKey)
       .append("from", this.subtractMonths())
-      .append("to", moment(Date.now()).format('YYYY-MM-DD'));
+      .append("to", today ? today : "");
 
     return this.http.get<ISentimentResponse>(this.getEndpoint(specificEndPoint), { params: queryParams })
       .pipe(map(
@@ -87,10 +88,10 @@ export class StockTrackerService {
   }
 
   private subtractMonths(): string {
-    const date = moment();
-    const dateMinus3Months = date.add(-3, 'months');
-    const dateFormatted = dateMinus3Months.format('YYYY-MM-DD');
-    return dateFormatted;
+    const date = new Date();
+    const dateMinus3Months = new Date(date.setMonth(date.getMonth() - 3));
+    const dateFormatted = this.datepipe.transform(dateMinus3Months, 'yyyy-MM-dd');
+    return dateFormatted ? dateFormatted : "";
 
   }
 

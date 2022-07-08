@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AddStockComponent } from './components/add-stock/add-stock.component';
@@ -17,7 +17,7 @@ import { SpinnerComponent } from '../shared/components/spinner/spinner.component
     HttpClientModule,
     RouterModule,
     StockTrackerRoutingModule
-
-  ]
+  ],
+  providers: [DatePipe]
 })
 export class StockTrackerModule { }
