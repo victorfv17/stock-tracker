@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddStockComponent } from './stock-tracker/components/add-stock/add-stock.component';
 
 const routes: Routes = [
   {
