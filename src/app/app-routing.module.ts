@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'stock',
-    loadChildren: () => import('src/app/stock-tracker/stock-tracker.module').then(x => x.StockTrackerModule)
+    loadChildren: () => import('./stock-tracker/stock-tracker.module').then(x => x.StockTrackerModule)
   }
 ];
 

@@ -25,7 +25,6 @@ export class SentimentComponent implements OnInit {
 
   ngOnInit(): void {
     this.symbol = this.route.snapshot.params['symbol'];
-    this.getCompanySubject()
     this.fetchSentimentData();
   }
 
@@ -35,6 +34,7 @@ export class SentimentComponent implements OnInit {
         if (sentimentData.length > 0) {
           this.listSentiment = sentimentData;
           this.listSentiment.map((element: Sentiment) => { element.date = `${element?.year}-${element?.month}-01` });
+          this.getCompanySubject();
         }
       },
       error: (error: ErrorEvent) => {
